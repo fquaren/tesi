@@ -35,16 +35,17 @@ if __name__ == "__main__":
         file_list, directories)
 
     # pretrain CAE with CAE small
-    pretrainCAE(
-        model=cfg.cae_small,
-        x_train=x_train,
-        x_val=x_val,
-        batch_size=cfg.cae_batch_size,
-        pretrain_epochs=cfg.pretrain_epochs,
-        my_callbacks=cfg.my_callbacks,
-        cae_models=cfg.cae_models,
-        optim=cfg.optim
-    )
+    if not cfg.ce_weights:
+        pretrainCAE(
+            model=cfg.cae_small,
+            x_train=x_train,
+            x_val=x_val,
+            batch_size=cfg.cae_batch_size,
+            pretrain_epochs=cfg.pretrain_epochs,
+            my_callbacks=cfg.my_callbacks,
+            cae_models=cfg.cae_models,
+            optim=cfg.optim
+        )
 
     pred_cae(
         net=cfg.cae_small,
@@ -64,7 +65,7 @@ if __name__ == "__main__":
 
     # Transfer learning
     autoencoder, _ = cfg.cae_small
-    autoencoder.load_weights(cfg.ce_weights)
+    autoencoder.load_weights(cfg.cae_weights)
     conv1 = autoencoder.get_layer(name='conv1').get_weights()
     conv2 = autoencoder.get_layer(name='conv2').get_weights()
     deconv1 = autoencoder.get_layer(name='deconv1').get_weights()
