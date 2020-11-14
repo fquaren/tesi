@@ -32,7 +32,7 @@ init = VarianceScaling(
 pretrain_epochs = 1000
 cae_batch_size = 32
 my_callbacks = [
-    EarlyStopping(patience=10, monitor='val_loss'),
+    EarlyStopping(patience=5, monitor='val_loss'),
     TensorBoard(log_dir=os.path.join(experiments, exp)),
     ModelCheckpoint(
         filepath=cae_weights,

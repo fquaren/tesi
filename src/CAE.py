@@ -67,15 +67,18 @@ if __name__ == "__main__":
     autoencoder.load_weights(cfg.ce_weights)
     conv1 = autoencoder.get_layer(name='conv1').get_weights()
     conv2 = autoencoder.get_layer(name='conv2').get_weights()
-    flatten_1 = autoencoder.get_layer(name='flatten_1').get_weights()
+    deconv1 = autoencoder.get_layer(name='deconv1').get_weights()
+    deconv2 = autoencoder.get_layer(name='deconv2').get_weights()
 
     autoencoder, _ = cfg.cae
     autoencoder.get_layer(name='conv1').set_weights(conv1)
     autoencoder.get_layer(name='conv1').trainable = False
     autoencoder.get_layer(name='conv2').set_weights(conv2)
     autoencoder.get_layer(name='conv2').trainable = False
-    autoencoder.get_layer(name='flatten_1').set_weights(flatten_1)
-    autoencoder.get_layer(name='flatten_1').trainable = False
+    autoencoder.get_layer(name='deconv1').set_weights(deconv1)
+    autoencoder.get_layer(name='deconv1').trainable = False
+    autoencoder.get_layer(name='deconv2').set_weights(deconv2)
+    autoencoder.get_layer(name='deconv2').trainable = False
 
     pretrainCAE(
         model=cfg.cae,
@@ -106,7 +109,8 @@ if __name__ == "__main__":
 
     autoencoder.get_layer(name='conv1').trainable = True
     autoencoder.get_layer(name='conv2').trainable = True
-    autoencoder.get_layer(name='flatten_1').trainable = True
+    autoencoder.get_layer(name='deconv1').trainable = True
+    autoencoder.get_layer(name='deconv2').trainable = True
 
     pretrainCAE(
         model=cfg.cae,
